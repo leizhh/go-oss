@@ -35,19 +35,41 @@ services:
     networks:
       - oss-network
         
-  data-server:
+  data-server-1:
     build:  
       context: .
       dockerfile: dataDockerfile
-    container_name: data-server
-    hostname: data-server
+    container_name: data-server-1
+    hostname: data-server-1
     restart: always
     environment:
-      LISTEN_ADDRESS: "data-server:20000"
+      LISTEN_ADDRESS: "data-server-1:20000"
       RABBITMQ_SERVER: "amqp://test:test@rabbitmq:5672"
       STORAGE_ROOT: "/storage"
     volumes:
-      - ./storage/1:/storage 
+      - ./storage/1/objects:/storage/objects 
+    command: 
+      - /bin/bash 
+      - -c 
+      - |
+        cd /go/src/go-oss/dataServer 
+        go run dataServer.go
+    networks:
+      - oss-network
+
+  data-server-2:
+    build:  
+      context: .
+      dockerfile: dataDockerfile
+    container_name: data-server-2
+    hostname: data-server-2
+    restart: always
+    environment:
+      LISTEN_ADDRESS: "data-server-2:20000"
+      RABBITMQ_SERVER: "amqp://test:test@rabbitmq:5672"
+      STORAGE_ROOT: "/storage"
+    volumes:
+      - ./storage/2/objects:/storage/objects 
     command: 
       - /bin/bash 
       - -c 
