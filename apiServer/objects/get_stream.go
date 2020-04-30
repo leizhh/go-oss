@@ -1,10 +1,10 @@
 package objects
 
 import (
-	locate "YJC-OSS/apiServer/locate"
+	locate "go-oss/apiServer/locate"
 	"fmt"
 	"io"
-	objectstream "YJC-OSS/lib/objectstream"
+	objectstream "go-oss/lib/objectstream"
 )
 
 func getStream(object string) (io.Reader, error) {

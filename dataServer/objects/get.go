@@ -4,13 +4,12 @@ import (
 	"io"
 	"log"
 	"net/http"
-	config "YJC-OSS/config"
 	"strings"
 	"os"
 )
 
 func get(w http.ResponseWriter, r *http.Request) {
-	f, e := os.Open(config.STORAGE_ROOT + "/objects/" +
+	f, e := os.Open(os.Getenv("STORAGE_ROOT") + "/objects/" +
 		strings.Split(r.URL.EscapedPath(), "/")[2])
 	if e != nil {
 		log.Println(e)

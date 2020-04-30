@@ -1,12 +1,12 @@
 package main
 
 import (
-	config "YJC-OSS/config"
-	heartbeat "YJC-OSS/apiServer/heartbeat"
-	locate "YJC-OSS/apiServer/locate"
-	objects "YJC-OSS/apiServer/objects"
+	heartbeat "go-oss/apiServer/heartbeat"
+	locate "go-oss/apiServer/locate"
+	objects "go-oss/apiServer/objects"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -14,5 +14,5 @@ func main() {
 	http.HandleFunc("/objects/", objects.Handler)
 	http.HandleFunc("/locate/", locate.Handler)
 	log.Println("API Server is running")
-	log.Fatal(http.ListenAndServe(config.LISTEN_ADDRESS, nil))
+	log.Fatal(http.ListenAndServe(os.Getenv("LISTEN_ADDRESS"), nil))
 }

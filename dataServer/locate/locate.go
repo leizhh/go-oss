@@ -1,8 +1,7 @@
 package locate
 
 import (
-	rabbitmq "YJC-OSS/lib/rabbitmq"
-	config "YJC-OSS/config"
+	rabbitmq "go-oss/lib/rabbitmq"
 	"strconv"
 	"os"
 )
@@ -13,7 +12,7 @@ func Locate(name string) bool {
 }
 
 func StartLocate() {
-	q := rabbitmq.New(config.RABBITMQ_SERVER)
+	q := rabbitmq.New(os.Getenv("RABBITMQ_SERVER"))
 	defer q.Close()
 	q.Bind("dataServers")
 	c := q.Consume()
@@ -22,8 +21,8 @@ func StartLocate() {
 		if e != nil {
 			panic(e)
 		}
-		if Locate(config.STORAGE_ROOT + "/objects/" + object) {
-			q.Send(msg.ReplyTo, config.LISTEN_ADDRESS)
+		if Locate(os.Getenv("STORAGE_ROOT") + "/objects/" + object) {
+			q.Send(msg.ReplyTo, os.Getenv("LISTEN_ADDRESS"))
 		}
 	}
 }

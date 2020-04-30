@@ -1,0 +1,62 @@
+version: "3.3"
+
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: "yjc"
+      RABBITMQ_DEFAULT_PASS: "yjc666"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - oss-network
+
+  api-server:
+    build:  
+      context: .
+      dockerfile: apiDockerfile
+    container_name: api-server
+    restart: always
+    environment:
+      LISTEN_ADDRESS: ":30000"
+      RABBITMQ_SERVER: "amqp://test:test@rabbitmq:5672"
+    command:      
+      - /bin/bash 
+      - -c 
+      - |
+        cd /go/src/go-oss/apiServer
+        go run *.go
+    ports:
+      - "30000:30000"
+    networks:
+      - oss-network
+        
+  data-server:
+    build:  
+      context: .
+      dockerfile: dataDockerfile
+    container_name: data-server
+    hostname: data-server
+    restart: always
+    environment:
+      LISTEN_ADDRESS: "data-server:20000"
+      RABBITMQ_SERVER: "amqp://test:test@rabbitmq:5672"
+      STORAGE_ROOT: "/storage"
+    volumes:
+      - ./storage/1:/storage 
+    command: 
+      - /bin/bash 
+      - -c 
+      - |
+        cd /go/src/go-oss/dataServer 
+        go run dataServer.go
+    networks:
+      - oss-network
+
+networks:
+  oss-network:
+    driver: bridge

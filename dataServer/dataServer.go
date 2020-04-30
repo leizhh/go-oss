@@ -1,12 +1,12 @@
 package main
 
 import (
-	heartbeat "YJC-OSS/dataServer/heartbeat"
-	locate "YJC-OSS/dataServer/locate"
-	objects "YJC-OSS/dataServer/objects"
+	heartbeat "go-oss/dataServer/heartbeat"
+	locate "go-oss/dataServer/locate"
+	objects "go-oss/dataServer/objects"
 	"log"
 	"net/http"
-	config "YJC-OSS/config"
+	"os"
 )
 
 func main() {
@@ -14,5 +14,5 @@ func main() {
 	go locate.StartLocate()
 	http.HandleFunc("/objects/", objects.Handler)
 	log.Println("DATA Server is running")
-	log.Fatal(http.ListenAndServe(config.LISTEN_ADDRESS, nil))
+	log.Fatal(http.ListenAndServe(os.Getenv("LISTEN_ADDRESS"), nil))
 }

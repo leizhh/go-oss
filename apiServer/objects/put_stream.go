@@ -1,9 +1,9 @@
 package objects
 
 import (
-	heartbeat "YJC-OSS/apiServer/heartbeat"
+	heartbeat "go-oss/apiServer/heartbeat"
 	"fmt"
-	objectstream "YJC-OSS/lib/objectstream"
+	objectstream "go-oss/lib/objectstream"
 )
 
 func putStream(object string) (*objectstream.PutStream, error) {

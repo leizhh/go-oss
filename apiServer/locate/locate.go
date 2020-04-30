@@ -1,14 +1,14 @@
 package locate
 
 import (
-	rabbitmq "YJC-OSS/lib/rabbitmq"
-	config "YJC-OSS/config"
+	rabbitmq "go-oss/lib/rabbitmq"
+	"os"
 	"strconv"
 	"time"
 )
 
 func Locate(name string) string {
-	q := rabbitmq.New(config.RABBITMQ_SERVER)
+	q := rabbitmq.New(os.Getenv("RABBITMQ_SERVER"))
 	q.Publish("dataServers", name)
 	c := q.Consume()
 	go func() {

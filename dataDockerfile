@@ -1,0 +1,7 @@
+FROM golang:latest
+
+RUN mkdir /storage 
+RUN cd /storage
+RUN mkdir objects
+
+COPY . /go/src/go-oss

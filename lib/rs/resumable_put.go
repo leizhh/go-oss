@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"lib/objectstream"
-	"lib/utils"
+	"go-oss/lib/objectstream"
+	"go-oss/lib/utils"
 	"log"
 	"net/http"
 )
