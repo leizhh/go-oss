@@ -1,3 +1,0 @@
-FROM golang:latest
-
-COPY . /go/src/go-oss

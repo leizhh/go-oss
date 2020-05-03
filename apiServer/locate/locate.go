@@ -1,7 +1,7 @@
 package locate
 
 import (
-	rabbitmq "go-oss/lib/rabbitmq"
+	"go-oss/lib/rabbitmq"
 	"os"
 	"strconv"
 	"time"

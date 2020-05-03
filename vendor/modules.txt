@@ -2,5 +2,7 @@
 github.com/klauspost/cpuid
 # github.com/klauspost/reedsolomon v1.9.4
 github.com/klauspost/reedsolomon
+# github.com/satori/go.uuid v1.2.0
+github.com/satori/go.uuid
 # github.com/streadway/amqp v0.0.0-20200108173154-1c71cc93ed71
 github.com/streadway/amqp

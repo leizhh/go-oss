@@ -5,7 +5,6 @@ import (
 	"go-oss/lib/utils"
 	"log"
 	"net/http"
-	"net/url"
 	"strings"
 )
 
@@ -17,7 +16,8 @@ func put(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	c, e := storeObject(r.Body, url.PathEscape(hash))
+	size := utils.GetSizeFromHeader(r.Header)
+	c, e := storeObject(r.Body, hash, size)
 	if e != nil {
 		log.Println(e)
 		w.WriteHeader(c)
@@ -29,7 +29,6 @@ func put(w http.ResponseWriter, r *http.Request) {
 	}
 
 	name := strings.Split(r.URL.EscapedPath(), "/")[2]
-	size := utils.GetSizeFromHeader(r.Header)
 	e = es.AddVersion(name, hash, size)
 	if e != nil {
 		log.Println(e)

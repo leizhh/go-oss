@@ -1,9 +1,9 @@
 package heartbeat
 
 import (
-	rabbitmq "go-oss/lib/rabbitmq"
-	"time"
+	"go-oss/lib/rabbitmq"
 	"os"
+	"time"
 )
 
 func StartHeartbeat() {
