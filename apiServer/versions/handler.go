@@ -9,6 +9,7 @@ import (
 )
 
 func Handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	m := r.Method
 	if m != http.MethodGet {
 		w.WriteHeader(http.StatusMethodNotAllowed)

@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="zh">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.staticfile.org/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/downloadjs/1.4.8/download.min.js"></script>
+    <script src="https://cdn.staticfile.org/crypto-js/4.0.0/core.min.js"></script>
+    <script src="https://cdn.staticfile.org/crypto-js/4.0.0/sha256.min.js"></script>
+    <script src="https://cdn.staticfile.org/crypto-js/4.0.0/enc-hex.min.js"></script>
+    <script src="https://cdn.staticfile.org/crypto-js/4.0.0/enc-base64.min.js"></script>
+    <title>GO-OSS</title>
+  </head>
+  <body>
+    <!-- Just an image -->
+    <nav class="navbar navbar-light" style="background-color: #990000;">
+        <a class="navbar-brand" href="#">
+        <img src="http://www.xpu.edu.cn/current/images/logo.png" width="120" height="30" alt="">
+        </a>
+    </nav>
+
+    <br>
+    <div style="text-align:center;"><h2>Go-OSS</h2></div>
+    <hr style="background-color: #990000;width: 100px;margin-left: auto;margin-right: auto;">
+    <div style="text-align:center;"><p class="lead">go-oss是一款采用go语言开发的分布式对象存储服务</p></div>
+    <br>
+
+    <div class="container"> 
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+
+                <div class="input-group flex-nowrap">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="addon-wrapping">接口URL</span>
+                    </div>
+                    <input id="inputURL" type="text" class="form-control" aria-describedby="addon-wrapping">
+                </div>
+                <br>
+
+                <div class="card" style="width: 100%;">
+                    <button type="button" class="btn btn-outline-danger btn-lg btn-block" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><i class="fas fa-cloud-upload-alt"></i> Upload</button>
+
+                    <div class="collapse" id="collapseExample">
+                        <div class="card-body p-auto m-auto">
+                            <div class="form-group">
+                                <label for="fileUpload">请选择要上传的文件</label>
+                                <input type="file" class="form-control-file" id="fileUploadInput">
+                            </div>
+                            <button type="button" class="btn btn-danger" onclick="fileUpload()">确定</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 100%;">
+                    <button type="button" class="btn btn-outline-danger btn-lg btn-block" data-toggle="collapse" data-target="#collapseDownload" aria-expanded="false" aria-controls="collapseDownload"><i class="fas fa-cloud-download-alt"></i> Download</button>
+
+                    <div class="collapse" id="collapseDownload">
+                        <div class="card-body p-auto m-auto">
+                            <div class="form-group">
+                                <label for="inputDownloadName">Name:</label>
+                                <input type="text" class="form-control" id="inputDownloadName" placeholder="请输入文件名">
+                            </div>
+                            <div class="form-group">
+                                <label for="inputDownloadVersion">Version:</label>
+                                <input type="number" class="form-control" id="inputDownloadVersion" placeholder="请输入版本号(可选，默认为最新版)">
+                            </div>
+                            <button type="button" class="btn btn-danger" onclick="fileDownload()">确定</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 100%;">
+                    <button type="button" class="btn btn-outline-danger btn-lg btn-block" data-toggle="collapse" data-target="#collapseVersion" aria-expanded="false" aria-controls="collapseVersion"><i class="fas fa-code-branch"></i> Version</button>
+
+                    <div class="collapse" id="collapseVersion">
+                        <div class="card-body p-auto m-auto">
+                            <div class="form-group">
+                                <label for="inputVersion">Name:</label>
+                                <input type="text" class="form-control" id="inputVersion" placeholder="请输入文件名">
+                            </div>
+                            <button type="button" class="btn btn-danger" onclick="getVersions()">确定</button>
+                            <div class="form-group">
+                                <label for="outputVersion">Result:</label>
+                                <textarea class="form-control" id="outputVersion" style="width:100%" rows="5" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="width: 100%;">
+                    <button type="button" class="btn btn-outline-danger btn-lg btn-block" data-toggle="collapse" data-target="#collapseLocate" aria-expanded="false" aria-controls="collapseLocate"><i class="fas fa-thumbtack"></i> Locate</button>
+                    <div class="collapse" id="collapseLocate">
+                        <div class="card-body p-auto m-auto">
+                            <div class="form-group">
+                                <label for="inputLocate">HASH:</label>
+                                <input type="text" class="form-control" id="inputLocate" placeholder="可以通过查询Version来获取Hash">
+                            </div>
+                            <button type="button" class="btn btn-danger" onclick="getLocate()">确定</button>
+                            <div class="form-group">
+                                <label for="outputLocate">Result:</label>
+                                <textarea class="form-control" id="outputLocate" style="width:100%" rows="5" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        //oss_url= $("#inputURL").val("118.89.111.54:30000");
+        oss_url= $("#inputURL").val(document.location.host)
+
+        function fileUpload(){
+            if (window.FileReader) {  
+                var file = document.getElementById("fileUploadInput").files[0];  
+                //filename = file.name.split(".")[0];
+                filename = file.name; 
+                var reader = new FileReader();  
+                reader.onload = function() {  
+                    console.log(this.result);  
+                    var hash = CryptoJS.SHA256(this.result).toString(CryptoJS.enc.Base64);
+                    console.log(hash);
+                    uploadfile(filename,this.result,hash);
+                }  
+                reader.readAsBinaryString(file);  
+            } 
+        }
+
+        function fileDownload(){
+            filename = $("#inputDownloadName").val();
+            oss_url = $("#inputURL").val();
+            downloadURL = "http://"+oss_url+"/objects/"+filename;
+            version = $("#inputDownloadVersion").val();
+            if(version !=""){
+                downloadURL = downloadURL + "?version=" + version;
+            }
+            console.log("download:",filename,"version:",version,"from:",downloadURL);
+
+            downloadfile(downloadURL,filename);
+        }
+
+        function getVersions(){
+            name = $("#inputVersion").val();
+            if(name==""){
+                alert("name 不能为空");
+                return;
+            }
+            console.log("Inquire",name ,"versions");
+            $("#outputVersion").val("file does not exist");
+
+            oss_url= $("#inputURL").val();
+            console.log("url:","http://"+oss_url+"/versions/"+name);
+
+            $.ajax({
+                type:"GET",
+                url:"http://"+oss_url+"/versions/"+name,
+                contentType: "application/x-www-form-urlencoded",
+                async: false, // 禁用同步操作 
+                success:function(data){
+                    $("#outputVersion").val(data);
+                },
+                error:function(jqXHR){
+                    alert("Error: "+jqXHR.status);
+                }
+            });
+        }
+
+        function getLocate(){
+            hash = $("#inputLocate").val();
+            if(hash==""){
+                alert("hash 不能为空");
+                return;
+            }
+            console.log("Inquire",hash ,"Locate");
+            $("#outputLocate").val("file does not exist");
+
+            oss_url= $("#inputURL").val();
+            hash=hash.replace(/\//g, "%2F");
+            console.log("url:","http://"+oss_url+"/locate/"+hash);
+
+            $.ajax({
+                type:"GET",
+                url:"http://"+oss_url+"/locate/"+hash,
+                contentType: "application/x-www-form-urlencoded",
+                async: false, // 禁用同步操作 
+                success:function(data){
+                    $("#outputLocate").val(data)
+                },
+                error:function(jqXHR){
+                    console.log("Error: "+jqXHR.status);
+                }
+            });
+        }
+
+        function downloadfile(url,filename) {
+            var xmlHttp = null;
+            if (window.ActiveXObject) {
+                // IE6, IE5 浏览器执行代码
+                xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+            } else if (window.XMLHttpRequest) {
+                // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
+                xmlHttp = new XMLHttpRequest();
+            }
+            //2.如果实例化成功，就调用open（）方法：
+            if (xmlHttp != null) {
+                xmlHttp.open("get", url, true);
+                xmlHttp.send();
+                xmlHttp.onreadystatechange = doResult; //设置回调函数                 
+            }
+            function doResult() {
+                if (xmlHttp.readyState == 4) { //4表示执行完成
+                    if (xmlHttp.status == 200) { //200表示执行成功
+                        download(xmlHttp.responseText, filename);
+                    }
+                }
+            }
+        }
+
+        function uploadfile(filename,file,hash){
+            oss_url = $("#inputURL").val();
+
+            console.log("upload to: http://"+oss_url+"/objects/"+filename)
+
+            $.ajax({
+                type:"PUT",
+                url:"http://"+oss_url+"/objects/"+filename,
+                // Ajax上传文件必备参数
+                processData: false ,    // 不处理数据
+                contentType: false,    // 不设置内容类型
+                data: file,
+                beforeSend:function(xhr){
+                    xhr.setRequestHeader("Digest","SHA-256="+hash);
+                },
+                success:function (data) {
+                    alert("上传成功");
+                },
+                error:function(jqXHR){
+                    alert("Error: "+jqXHR.status);
+                }
+            })
+        }
+    </script>
+
+    <div class="footer text-center" style="width: 100%;">
+        <hr class="m-0">
+        Copyright © 2020 西安工程大学-杨景程
+    </div>
+
+    </body>
+
+    <script>
+    var footerHeight = 0, 
+    footerTop = 0, 
+    $footer = $(".footer"); 
+    positionFooter(); 
+
+    //定义positionFooter function 
+    function positionFooter() { 
+        //取到div#footer高度 
+        footerHeight = $footer.height(); 
+        //div#footer离屏幕顶部的距离 
+        footerTop = ($(window).scrollTop()+$(window).height()-footerHeight)+"px"; 
+        
+        //如果页面内容高度小于屏幕高度，div#footer将绝对定位到屏幕底部，否则div#footer保留它的正常静态定位 
+        if ( ($(document.body).height()) < $(window).height()) { 
+            $footer.css({ 
+                position: "absolute" ,
+                top: footerTop
+            })
+        } else { 
+            $footer.css({ 
+                position: "static" 
+            }); 
+        } 
+    } 
+    $(window).scroll(positionFooter).resize(positionFooter); 
+    </script>
+
+  </body>
+</html>
